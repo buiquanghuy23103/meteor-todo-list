@@ -8,6 +8,16 @@ import { Tasks } from '../api/tasks.js';
 // App component - represents the whole app
 class App extends Component {
 
+  state = {
+    hideCompleted: false,
+  }
+
+  toggleHideCompleted = () => {
+    this.setState({
+      hideCompleted: !this.state.hideCompleted,
+    });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     const textInput = ReactDOM.findDOMNode(this.refs.textInput);
@@ -24,7 +34,11 @@ class App extends Component {
   }
 
   renderTasks() {
-    return this.props.tasks.map((task) => (
+    let tasks = this.props.tasks;
+    if (this.state.hideCompleted) {
+      tasks = tasks.filter(task => !task.checked);
+    }
+    return tasks.map((task) => (
       <Task key={task._id} task={task} />
     ));
   }
@@ -34,6 +48,17 @@ class App extends Component {
       <div className="container">
         <header>
           <h1>Todo List</h1>
+
+          <label className='hide-completed'>
+          
+          <input
+            type='checkbox'
+            readOnly
+            checked={!!this.state.hideCompleted}
+            onClick={this.toggleHideCompleted}
+          />
+            Hide completed tasks
+          </label>
 
           <form
             className='new-task'

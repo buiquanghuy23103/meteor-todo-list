@@ -82,6 +82,9 @@ class App extends Component {
 }
 
 export default withTracker(() => {
+
+  Meteor.subscribe('tasks');
+
   return {
     tasks: Tasks.find(
       {},

@@ -25,14 +25,7 @@ class App extends Component {
     const textInput = ReactDOM.findDOMNode(this.refs.textInput);
 
     const text = textInput.value.trim();
-    const now = new Date();
-
-    Tasks.insert({
-      text,
-      createdAt: now,
-      owner: Meteor.userId(),
-      username: Meteor.user().username,
-    });
+    Meteor.call('tasks.insert', text);
 
     textInput.value = '';
   }

@@ -8,6 +8,15 @@ export default class Task extends Component {
     Tasks.remove(this.props.task._id);
   }
 
+  handleCheckboxClick = () => {
+    Tasks.update(
+      this.props.task._id,
+      {
+        $set: { checked: !this.props.task.checked },
+      }
+    );
+  }
+
   render() {
     const taskClassName = this.props.task.checked ? 'Checked' : '';
 
@@ -19,6 +28,14 @@ export default class Task extends Component {
         >
           &times;
         </button>
+
+        <input
+          type='checkbox'
+          readOnly
+          checked={!!this.props.task.checked}
+          onClick={this.handleCheckboxClick}
+        />
+
         <span className='text'>{this.props.task.text}</span>
       </li>
     );

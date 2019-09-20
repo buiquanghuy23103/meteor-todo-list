@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
  
 import Task from './Task.js';
 import { Tasks } from '../api/tasks.js';
+import AccountsUIWrapper from './AccountsUIWrapper.js';
 
 // App component - represents the whole app
 class App extends Component {
@@ -59,6 +60,8 @@ class App extends Component {
           />
             Hide completed tasks
           </label>
+
+          <AccountsUIWrapper/>
 
           <form
             className='new-task'

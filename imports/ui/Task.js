@@ -19,7 +19,6 @@ export default class Task extends Component {
   render() {
     const taskClassName = this.props.task.checked ? 'Checked' : '';
 
-
     return (
       <li className={taskClassName}>
         <button 
@@ -36,12 +35,14 @@ export default class Task extends Component {
           onClick={this.handleCheckboxClick}
         />
 
-        <button 
+        {this.props.showPrivateButton &&
+          <button 
           className='toggle-private'
           onClick={this.togglePrivate}
         >
           {this.props.task.private ? 'Private' : 'Public'}
         </button>
+        }
 
         <span className='text'>
           <strong>{this.props.task.username}</strong>:  {this.props.task.text}

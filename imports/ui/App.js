@@ -32,12 +32,29 @@ class App extends Component {
 
   renderTasks() {
     let tasks = this.props.tasks;
+
+    
+
     if (this.state.hideCompleted) {
       tasks = tasks.filter(task => !task.checked);
     }
-    return tasks.map((task) => (
-      <Task key={task._id} task={task} />
-    ));
+
+    return tasks.map((task) => {
+      const userId = this.props.currentUser && this.props.currentUser._id;
+      const doesUserOwnTask = task.owner === userId;
+
+      if (!doesUserOwnTask && task.private) {
+        return '';
+      }
+
+      return (
+        <Task 
+          key={task._id} 
+          task={task} 
+          showPrivateButton={doesUserOwnTask}
+        />
+      );
+    });
   }
 
   render() {

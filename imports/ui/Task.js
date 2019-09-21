@@ -19,6 +19,8 @@ export default class Task extends Component {
   render() {
     const taskClassName = this.props.task.checked ? 'Checked' : '';
 
+    
+
     return (
       <li className={taskClassName}>
         <button 

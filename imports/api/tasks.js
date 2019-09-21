@@ -7,7 +7,9 @@ export const Tasks = new Mongo.Collection('tasks');
 if (Meteor.isServer) {
     Meteor.publish(
         'tasks',
-        () => Tasks.find()
+        function tasksPublication() {
+            return Tasks.find();
+        }
     );
 }
 
@@ -51,4 +53,21 @@ Meteor.methods({
         );
     },
 
+    'tasks.togglePrivate'(taskId, setPrivate) {
+        check(taskId, String);
+        check(setPrivate, Boolean);
+        
+        const task = Tasks.findOne(taskId);
+        const userId = this.userId || '';
+        if (task.owner !== userId) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        Tasks.update(
+            taskId,
+            {
+                $set: { private: setPrivate }
+            }
+        );
+    }
 });

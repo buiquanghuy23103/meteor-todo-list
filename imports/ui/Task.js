@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import { Tasks } from '../api/tasks.js';
 import { Meteor } from 'meteor/meteor';
  
 // Task component - represents a single todo item
@@ -13,8 +12,13 @@ export default class Task extends Component {
     Meteor.call('tasks.setChecked', this.props.task._id, !this.props.task.checked);
   }
 
+  togglePrivate = () => {
+    Meteor.call('tasks.togglePrivate', this.props.task._id, !this.props.task.private)
+  }
+
   render() {
     const taskClassName = this.props.task.checked ? 'Checked' : '';
+
 
     return (
       <li className={taskClassName}>
@@ -31,6 +35,13 @@ export default class Task extends Component {
           checked={!!this.props.task.checked}
           onClick={this.handleCheckboxClick}
         />
+
+        <button 
+          className='toggle-private'
+          onClick={this.togglePrivate}
+        >
+          {this.props.task.private ? 'Private' : 'Public'}
+        </button>
 
         <span className='text'>
           <strong>{this.props.task.username}</strong>:  {this.props.task.text}
